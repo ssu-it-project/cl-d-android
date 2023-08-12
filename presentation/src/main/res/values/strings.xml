@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CL.D</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_search">Search</string>
+    <string name="title_record">Record</string>
+    <string name="title_community">Community</string>
+    <string name="title_profile">Profile</string>
 </resources>
