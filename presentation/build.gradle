@@ -5,6 +5,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'com.seumulseumul.cld'
     compileSdk 33
@@ -19,8 +22,18 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
+        debug {
+            resValue "string", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
+            buildConfigField "String", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
+        }
         release {
+            resValue "string", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
+            buildConfigField "String", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -68,4 +81,7 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:2.5.2"
+
+    // Kakao Login
+    implementation "com.kakao.sdk:v2-user:2.15.0"
 }
