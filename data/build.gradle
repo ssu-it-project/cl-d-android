@@ -17,9 +17,17 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
+        debug {
+            buildConfigField 'String', "CL_D_SERVER_BASE_URL", "\"http://ec2-13-209-11-183.ap-northeast-2.compute.amazonaws.com:1323/\""
+        }
         release {
             minifyEnabled false
+            buildConfigField 'String', "CL_D_SERVER_BASE_URL", "\"http://ec2-13-209-11-183.ap-northeast-2.compute.amazonaws.com:1323/\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,4 +62,11 @@ dependencies {
     kapt "androidx.room:room-compiler:2.5.2"
     implementation "androidx.room:room-ktx:2.5.2"
     androidTestImplementation "androidx.room:room-testing:2.5.2"
+
+    // REST API
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+
 }
