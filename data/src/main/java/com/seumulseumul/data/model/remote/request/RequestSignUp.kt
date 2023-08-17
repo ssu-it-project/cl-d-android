@@ -2,12 +2,12 @@ package com.seumulseumul.data.model.remote.request
 
 import com.google.gson.annotations.SerializedName
 
-data class RequestSingUp(
+data class RequestSignUp(
     @SerializedName("agreements")
     val agreements: List<Agreement>,
 
     @SerializedName("auth")
-    val auth: RequestSignIn,
+    val auth: Auth,
 
     @SerializedName("profile")
     val profile: Profile
@@ -22,6 +22,17 @@ data class Agreement(
 
     @SerializedName("timestamp")
     val timestamp: String
+)
+
+data class Auth(
+    @SerializedName("access_token")
+    val accessToken: String,
+
+    @SerializedName("device")
+    val device: Device,
+
+    @SerializedName("login_type")
+    val loginType: String
 )
 
 data class Profile(

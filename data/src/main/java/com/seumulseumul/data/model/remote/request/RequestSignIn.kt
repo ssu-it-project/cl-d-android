@@ -15,7 +15,7 @@ data class RequestSignIn(
 
 data class Device(
     @SerializedName("device_id")
-    val devicdId: String,
+    val deviceId: String,
 
     @SerializedName("device_info")
     val deviceInfo: String
