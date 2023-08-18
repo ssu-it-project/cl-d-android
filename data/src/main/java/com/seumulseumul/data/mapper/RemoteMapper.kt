@@ -22,8 +22,10 @@ import com.seumulseumul.domain.model.Gyms
 import com.seumulseumul.domain.model.RefreshToken
 import com.seumulseumul.domain.model.SignIn
 import com.seumulseumul.domain.model.SignUp
+import javax.inject.Inject
 
-class RemoteMapper {
+class RemoteMapper @Inject constructor(
+) {
 
     /* ----------------------------Request---------------------------- */
     fun mapperToRefreshToken(

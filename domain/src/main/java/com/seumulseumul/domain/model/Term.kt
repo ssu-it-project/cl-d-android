@@ -5,5 +5,7 @@ data class Term(
 
     val name: String,
 
-    val pageUrl: String
+    val pageUrl: String,
+
+    var agreed: Boolean = false
 )

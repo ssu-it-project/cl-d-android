@@ -35,6 +35,9 @@ class LoginActivity: AppCompatActivity() {
             loginWithKakao()
             //startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
         }
+        binding.layoutGoogleLogin.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+        }
     }
 
     private fun loginWithKakao() {
@@ -43,7 +46,13 @@ class LoginActivity: AppCompatActivity() {
                 Log.e("LoginActivity", "카카오계정으로 로그인 실패", error)
             } else if (token != null) {
                 Log.i("LoginActivity", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                /*PrefData.put(true to PrefKey.isLogin)
+
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()*/
+                startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
             }
         }
 

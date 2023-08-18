@@ -47,9 +47,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:text="환영해요!가입하려면\n약관에 동의가 필요해요."/>
+        android:text="환영해요! 가입하려면\n약관에 동의가 필요해요."/>
     
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_agree_all"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_welcome"
@@ -82,8 +83,18 @@
             android:text="전체 동의하기"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_terms"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout_agree_all"
+        app:layout_constraintBottom_toTopOf="@id/btn_start"
+        app:layout_constraintLeft_toLeftOf="@id/layout_agree_all"
+        app:layout_constraintRight_toRightOf="@id/layout_agree_all"
+        app:layout_constraintVertical_bias="0.1" />
     
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_start"
         android:layout_width="0dp"
         android:layout_height="52dp"
@@ -93,7 +104,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/start_button"
+        android:background="@drawable/start_button_disabled"
         android:textColor="@color/white"
         android:text="시작하기" />
 

@@ -182,14 +182,14 @@ class ClDRemoteDataSourceImpl @Inject constructor(
                 }
             } else {
                 try {
-                    Log.d("ClDRemoteDataSourceImpl", "[getClimeRecord] fail: ${response.errorBody()!!.string()}")
+                    Log.d("ClDRemoteDataSourceImpl", "[getTerms] fail: ${response.errorBody()!!.string()}")
                     //emit(ApiState.Error(response.errorBody()!!.string()))
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }
         } catch (e: Exception) {
-            Log.d("ClDRemoteDataSourceImpl", "[getClimeRecord] fail: $e")
+            Log.d("ClDRemoteDataSourceImpl", "[getTerms] fail: $e")
             //emit(ApiState.Error(e.message ?: ""))
         } as Unit
     }
