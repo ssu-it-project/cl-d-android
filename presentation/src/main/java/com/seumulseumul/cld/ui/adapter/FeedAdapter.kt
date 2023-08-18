@@ -1,5 +1,6 @@
 package com.seumulseumul.cld.ui.adapter
 
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnInfoListener
 import android.net.Uri
@@ -52,6 +53,14 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
                     Log.d("TESTLOG", "MEDIA_INFO_VIDEO_RENDERING_START")
                     binding.pbLoadingVideo.visibility = View.GONE
                 }
+                if (MediaPlayer.MEDIA_INFO_BUFFERING_START == what) {
+                    Log.d("TESTLOG", "MEDIA_INFO_BUFFERING_START")
+                    binding.pbLoadingVideo.visibility = View.VISIBLE
+                }
+                if (MediaPlayer.MEDIA_INFO_BUFFERING_END == what) {
+                    Log.d("TESTLOG", "MEDIA_INFO_BUFFERING_END")
+                    binding.pbLoadingVideo.visibility = View.GONE
+                }
                 false
             }
 
@@ -63,6 +72,7 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
 
         fun startVideo() {
             if (!binding.vvFeedVideo.isPlaying) {
+                binding.vvFeedVideo.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE)
                 binding.vvFeedVideo.start()
                 binding.pbLoadingVideo.visibility = View.VISIBLE
                 Log.d("TESTLOG", "vvFeedVideo.start()")
@@ -93,11 +103,13 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
 
     override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
+        Log.d("TESTLOG", "onViewAttachedToWindow")
         holder.startVideo()
     }
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         super.onViewDetachedFromWindow(holder)
+        Log.d("TESTLOG", "onViewDetachedFromWindow")
         holder.stopVideo()
     }
 }

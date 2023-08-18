@@ -73,7 +73,3 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 }
-
-interface PlayShowVideo{
-    fun playVideo()
-}
