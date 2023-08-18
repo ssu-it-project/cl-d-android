@@ -7,7 +7,7 @@ object BaseUrl {
 
     const val CL_D_API_GET_GYMS = "clime/gyms"
 
-    const val CL_D_API_GET_POST_RECORD = "clime/record"
+    const val CL_D_API_GET_POST_RECORD = "clime/records"
 
     const val CL_D_API_GET_TERMS = "terms"
 }
