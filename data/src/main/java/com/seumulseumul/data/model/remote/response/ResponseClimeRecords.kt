@@ -6,6 +6,7 @@ data class ResponseClimeRecords(
     @SerializedName("pagination")
     val pagination: Pagination,
 
+    // 서버 측 오타. 추후 변경 가능
     @SerializedName("Records")
     val records: List<Record>
 )
