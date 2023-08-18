@@ -17,9 +17,13 @@ import com.seumulseumul.cld.sharedpref.PrefKey
 import com.seumulseumul.cld.ui.MainActivity
 import com.seumulseumul.cld.ui.adapter.TermsAdapter
 import com.seumulseumul.cld.ui.term.TermDetailActivity
+import com.seumulseumul.domain.model.Agreement
+import com.seumulseumul.domain.model.Auth
+import com.seumulseumul.domain.model.Device
+import com.seumulseumul.domain.model.Profile
+import com.seumulseumul.domain.model.SignUp
 import com.seumulseumul.domain.model.Term
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,6 +34,19 @@ class SignUpActivity: AppCompatActivity() {
 
     lateinit var termsList: MutableList<Term>
     private var isAllCheck = false
+
+    private val birthDay: String by lazy {
+        intent.getStringExtra("birthday").orEmpty()
+    }
+    private val gender: String by lazy {
+        intent.getStringExtra("gender").orEmpty()
+    }
+    private val nickname: String by lazy {
+        intent.getStringExtra("nickname").orEmpty()
+    }
+    private val image: String by lazy {
+        intent.getStringExtra("image").orEmpty()
+    }
 
     private val onCheckAgreeClickListener = object : OnItemClickListener {
         override fun onItemClick(term: Term) {
@@ -64,7 +81,13 @@ class SignUpActivity: AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initViewModelStream()
         signUpViewModel.getTerms()
+
+        initView()
+    }
+
+    private fun initViewModelStream() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 signUpViewModel.termsSharedFlow.collect{
@@ -74,6 +97,20 @@ class SignUpActivity: AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                signUpViewModel.signUpSharedFlow.collect {
+                    val authToken = "Bearer ${it.jwt}"
+                    PrefData.put(authToken to PrefKey.authToken)
+                    PrefData.put(it.refreshToken to PrefKey.refreshToken)
+
+                    startLogin()
+                }
+            }
+        }
+    }
+
+    private fun initView() {
         binding.rvTerms.also {
             it.layoutManager = layoutManager
             it.adapter = adapter
@@ -94,12 +131,7 @@ class SignUpActivity: AppCompatActivity() {
 
         binding.btnStart.setOnClickListener {
             if (isAllCheck) {
-                PrefData.put(true to PrefKey.isLogin)
-
-                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+                signUpViewModel.postSignUp(makeSignUpObject())
             } else {
                 Toast.makeText(
                     this@SignUpActivity,
@@ -123,6 +155,43 @@ class SignUpActivity: AppCompatActivity() {
         binding.cbAgreeAll.isChecked = true
         binding.btnStart.setBackgroundResource(R.drawable.start_button_enabled)
         isAllCheck = true
+    }
+
+    private fun startLogin() {
+        PrefData.put(true to PrefKey.isLogin)
+
+        val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    private fun makeSignUpObject(): SignUp {
+        val agreements = mutableListOf<Agreement>()
+        termsList.forEach {
+            agreements.add(Agreement(
+                it.agreed,
+                it.id,
+                "2023-08-18T00:00:00Z"
+            ))
+        }
+
+        val auth = Auth(
+            PrefData.getString(PrefKey.oAuthAccessToken, ""),
+            Device("1", "1"),
+            PrefData.getString(PrefKey.loginType, "")
+        )
+
+        val genderFlag = if (gender == "MALE") 0 else 1
+        val profile = Profile(
+            /*birthDay*/"1997-07-23T00:00:00Z",
+            genderFlag,
+            image,
+            "",
+            nickname
+        )
+
+        return SignUp(agreements, auth, profile)
     }
 }
 

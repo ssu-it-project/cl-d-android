@@ -3,6 +3,7 @@ package com.seumulseumul.cld.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -32,6 +33,7 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.layoutKakaoLogin.setOnClickListener {
+            binding.layoutLoading.visibility = View.VISIBLE
             loginWithKakao()
             //startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
         }
@@ -44,15 +46,10 @@ class LoginActivity: AppCompatActivity() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e("LoginActivity", "카카오계정으로 로그인 실패", error)
+                binding.layoutLoading.visibility = View.GONE
             } else if (token != null) {
                 Log.i("LoginActivity", "카카오계정으로 로그인 성공 ${token.accessToken}")
-                /*PrefData.put(true to PrefKey.isLogin)
-
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()*/
-                startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                startWithKakao(token.accessToken)
             }
         }
 
@@ -60,6 +57,7 @@ class LoginActivity: AppCompatActivity() {
             UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                 if (error != null) {
                     Log.e("LoginActivity", "카카오톡으로 로그인 실패", error)
+                    binding.layoutLoading.visibility = View.GONE
 
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         return@loginWithKakaoTalk
@@ -69,19 +67,32 @@ class LoginActivity: AppCompatActivity() {
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
                     Log.i("LoginActivity", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                    startWithKakao(token.accessToken)
                 }
             }
         } else {
             UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
         }
+    }
+
+    private fun startWithKakao(accessToken: String) {
+        binding.layoutLoading.visibility = View.GONE
+
+        PrefData.put(accessToken to PrefKey.oAuthAccessToken)
+        PrefData.put("kakao" to PrefKey.loginType)
+
+        val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
 
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e("LoginActivity", "사용자 정보 요청 실패 $error")
             } else if (user != null) {
-                Log.e("LoginActivity", "사용자 정보 요청 성공 : $user")
+                intent.putExtra("birthday", user.kakaoAccount?.birthday)
+                intent.putExtra("gender", user.kakaoAccount?.gender.toString())
+                intent.putExtra("nickname", user.kakaoAccount?.profile?.nickname)
+                intent.putExtra("image", user.kakaoAccount?.profile?.thumbnailImageUrl)
             }
+            startActivity(intent)
         }
     }
 }
