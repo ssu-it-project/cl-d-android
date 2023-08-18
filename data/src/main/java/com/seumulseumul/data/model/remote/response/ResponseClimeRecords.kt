@@ -6,43 +6,43 @@ data class ResponseClimeRecords(
     @SerializedName("pagination")
     val pagination: Pagination,
 
-    @SerializedName("records")
+    @SerializedName("Records")
     val records: List<Record>
 )
 
 data class Record(
+    @SerializedName("id")
+    val id: String,
+
     @SerializedName("author")
     val author: Author,
 
     @SerializedName("climbing_gym_info")
     val climbingGymInfo: ClimbingGymInfo,
 
-    @SerializedName("content")
-    val content: String,
-
-    @SerializedName("date")
-    val date: Date,
-
-    @SerializedName("id")
-    val id: String,
-
-    @SerializedName("image")
-    val image: String,
+    @SerializedName("sector")
+    val sector: String,
 
     @SerializedName("level")
     val level: String,
 
-    @SerializedName("like_count")
-    val likeCount: Int,
-
-    @SerializedName("sector")
-    val sector: String,
+    @SerializedName("content")
+    val content: String,
 
     @SerializedName("video")
     val video: String,
 
+    @SerializedName("image")
+    val image: String,
+
     @SerializedName("view_count")
-    val viewCount: Int
+    val viewCount: Int,
+
+    @SerializedName("like_count")
+    val likeCount: Int,
+
+    @SerializedName("date")
+    val date: Date,
 )
 
 data class Author(
