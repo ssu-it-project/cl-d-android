@@ -13,5 +13,8 @@
     <color name="default_disable_color">#D2D4D7</color>
     <color name="default_enable_color">#E3B55F</color>
 
+    <color name="color_eeeeee">#EEEEEE</color>
+    <color name="color_select_tab">#B08B47</color>
+
     <color name="loading_translucent_color">#B3000000</color>
 </resources>
