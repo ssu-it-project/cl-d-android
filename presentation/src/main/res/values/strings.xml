@@ -5,4 +5,7 @@
     <string name="title_record">Record</string>
     <string name="title_community">Community</string>
     <string name="title_profile">Profile</string>
+    
+    <string name="title_search_near_gyms">가까운 암장</string>
+    <string name="title_search_favorite_gyms">자주 가는 암장</string>
 </resources>

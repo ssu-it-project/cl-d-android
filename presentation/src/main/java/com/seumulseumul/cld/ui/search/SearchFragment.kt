@@ -4,31 +4,54 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.seumulseumul.cld.R
 import com.seumulseumul.cld.databinding.FragmentSearchBinding
+import com.seumulseumul.cld.ui.adapter.SearchFragmentAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var searchFragmentAdapter: SearchFragmentAdapter
+    private val searchNearGymsFragment by lazy {
+        SearchNearGymsFragment()
+    }
+    private val searchFavoriteGymsFragment by lazy {
+        SearchFavoriteGymsFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        searchFragmentAdapter = SearchFragmentAdapter(
+            this,
+            searchNearGymsFragment,
+            searchFavoriteGymsFragment
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val searchViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
-
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        binding.viewPagerSearch.adapter = searchFragmentAdapter
+        TabLayoutMediator(binding.tabLayoutSearch, binding.viewPagerSearch) {tab, position ->
+            when (position) {
+                0 -> { tab.text = getString(R.string.title_search_near_gyms) }
+                1 -> { tab.text = getString(R.string.title_search_favorite_gyms) }
+            }
+        }.attach()
+
+        return binding.root
     }
 
     override fun onDestroyView() {

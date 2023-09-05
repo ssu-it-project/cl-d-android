@@ -35,7 +35,7 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
         private val binding: ItemFeedBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Record) {
-            var profileImage =
+            val profileImage =
                 item.author.profileImageUrl.ifEmpty {
                     AppCompatResources.getDrawable(ClDApplication.applicationContext(), R.drawable.profile_image_example)
                 }

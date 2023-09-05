@@ -37,8 +37,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="22dp"
         android:layout_marginEnd="22dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:background="@drawable/search_layout">
 
         <ImageView
@@ -74,11 +74,12 @@
         app:layout_constraintTop_toBottomOf="@id/layout_search_gym"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:tabTextAppearance="@style/tabTextSizeBold"
         app:tabGravity="start"
-        app:tabIndicator="@color/color_select_tab"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/color_select_tab"/>
+        app:tabSelectedTextColor="@color/color_select_tab"
+        app:tabIndicatorColor="@color/color_select_tab"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager_search"

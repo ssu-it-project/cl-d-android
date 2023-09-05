@@ -1,13 +1,37 @@
 package com.seumulseumul.cld.ui.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.seumulseumul.domain.model.Gyms
+import com.seumulseumul.domain.usecase.GetClimbingGymsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val getClimeGymsUseCase: GetClimbingGymsUseCase
+) : ViewModel() {
+    private val _climbingGymsSharedFlow = MutableSharedFlow<Gyms>()
+    val climbingGymsSharedFlow = _climbingGymsSharedFlow.asSharedFlow()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Search Fragment"
+    fun getClimbingGyms(
+        auth: String,
+        x: Double,
+        y: Double,
+        keyword: String,
+        limit: Int = 5,
+        skip: Int = 0
+    ) = viewModelScope.launch {
+        getClimeGymsUseCase
+            .invoke(auth, x, y, limit, skip, keyword)
+            .catch {
+                it.printStackTrace()
+            }.collect {
+                _climbingGymsSharedFlow.emit(it)
+            }
     }
-    val text: LiveData<String> = _text
 }

@@ -10,4 +10,9 @@
         <item name="android:background">@drawable/bottom_sheet_dialog_layout</item>
     </style>
 
+    <style name="tabTextSizeBold" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
