@@ -20,7 +20,6 @@ import com.seumulseumul.cld.ui.term.TermDetailActivity
 import com.seumulseumul.domain.model.Agreement
 import com.seumulseumul.domain.model.Auth
 import com.seumulseumul.domain.model.Device
-import com.seumulseumul.domain.model.Profile
 import com.seumulseumul.domain.model.SignUp
 import com.seumulseumul.domain.model.Term
 import dagger.hilt.android.AndroidEntryPoint
@@ -172,7 +171,7 @@ class SignUpActivity: AppCompatActivity() {
             agreements.add(Agreement(
                 it.agreed,
                 it.id,
-                "2023-08-18T00:00:00Z"
+                //"2023-08-18T00:00:00Z"
             ))
         }
 
@@ -183,15 +182,16 @@ class SignUpActivity: AppCompatActivity() {
         )
 
         val genderFlag = if (gender == "MALE") 0 else 1
-        val profile = Profile(
-            /*birthDay*/"1997-07-23T00:00:00Z",
+        /*val profile = Profile(
+            *//*birthDay*//*"1997-07-23T00:00:00Z",
             genderFlag,
             image,
             "",
             nickname
-        )
+        )*/
 
-        return SignUp(agreements, auth, profile)
+        //return SignUp(agreements, auth, profile)
+        return SignUp(agreements, auth)
     }
 }
 

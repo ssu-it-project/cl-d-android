@@ -5,7 +5,7 @@ data class SignUp(
 
     val auth: Auth,
 
-    val profile: Profile
+    //val profile: Profile
 )
 
 data class Agreement(
@@ -13,7 +13,7 @@ data class Agreement(
 
     val id: String,
 
-    val timestamp: String
+    //val timestamp: String
 )
 
 data class Auth(
@@ -24,6 +24,7 @@ data class Auth(
     val loginType: String
 )
 
+/*
 data class Profile(
     val birthday:  String,
 
@@ -34,4 +35,4 @@ data class Profile(
     val name: String,
 
     val nickname: String,
-)
+)*/

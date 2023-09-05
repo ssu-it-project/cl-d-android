@@ -9,8 +9,8 @@ data class RequestSignUp(
     @SerializedName("auth")
     val auth: Auth,
 
-    @SerializedName("profile")
-    val profile: Profile
+    /*@SerializedName("profile")
+    val profile: Profile*/
 )
 
 data class Agreement(
@@ -20,8 +20,8 @@ data class Agreement(
     @SerializedName("id")
     val id: String,
 
-    @SerializedName("timestamp")
-    val timestamp: String
+    /*@SerializedName("timestamp")
+    val timestamp: String*/
 )
 
 data class Auth(

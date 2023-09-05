@@ -68,7 +68,7 @@ class RemoteMapper @Inject constructor(
         return SignUp(
             agreementList,
             mapperToAuth(requestSignUp.auth),
-            mapperToProfile(requestSignUp.profile)
+            //mapperToProfile(requestSignUp.profile)
         )
     }
 
@@ -82,7 +82,7 @@ class RemoteMapper @Inject constructor(
         return RequestSignUp(
             agreementList,
             mapperToRequestAuth(SignUp.auth),
-            mapperToRequestProfile(SignUp.profile)
+            //mapperToRequestProfile(SignUp.profile)
         )
     }
 
@@ -105,7 +105,7 @@ class RemoteMapper @Inject constructor(
     ): com.seumulseumul.domain.model.Agreement = com.seumulseumul.domain.model.Agreement(
         agreement.agreed,
         agreement.id,
-        agreement.timestamp
+        //agreement.timestamp
     )
 
     fun mapperToRequestAgreement(
@@ -113,7 +113,7 @@ class RemoteMapper @Inject constructor(
     ): com.seumulseumul.data.model.remote.request.Agreement = com.seumulseumul.data.model.remote.request.Agreement(
         agreement.agreed,
         agreement.id,
-        agreement.timestamp
+        //agreement.timestamp
     )
 
     fun mapperToAuth(
@@ -132,7 +132,7 @@ class RemoteMapper @Inject constructor(
         auth.loginType
     )
 
-    fun mapperToProfile(
+    /*fun mapperToProfile(
         profile: com.seumulseumul.data.model.remote.request.Profile
     ): com.seumulseumul.domain.model.Profile = com.seumulseumul.domain.model.Profile(
         profile.birthday,
@@ -140,9 +140,9 @@ class RemoteMapper @Inject constructor(
         profile.image,
         profile.name,
         profile.nickname
-    )
+    )*/
 
-    fun mapperToRequestProfile(
+    /*fun mapperToRequestProfile(
         profile: com.seumulseumul.domain.model.Profile
     ): com.seumulseumul.data.model.remote.request.Profile = com.seumulseumul.data.model.remote.request.Profile(
         profile.birthday,
@@ -150,7 +150,7 @@ class RemoteMapper @Inject constructor(
         profile.image,
         profile.name,
         profile.nickname
-    )
+    )*/
 
     /* ----------------------------Response---------------------------- */
 
