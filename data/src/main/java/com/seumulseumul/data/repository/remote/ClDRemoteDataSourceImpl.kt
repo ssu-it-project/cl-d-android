@@ -10,11 +10,14 @@ import com.seumulseumul.domain.model.AuthToken
 import com.seumulseumul.domain.model.ClimeRecords
 import com.seumulseumul.domain.model.Gyms
 import com.seumulseumul.domain.model.Term
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import java.io.IOException
 import javax.inject.Inject
+
 
 class ClDRemoteDataSourceImpl @Inject constructor(
     private val clDApi: ClDApi,
@@ -79,7 +82,16 @@ class ClDRemoteDataSourceImpl @Inject constructor(
             } else {
                 try {
                     Log.d("ClDRemoteDataSourceImpl", "[postSignUp] fail: ${response.errorBody()!!.string()}")
-                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                    //if (response.code() == 409 && response.errorBody()!!.string().contains("User already exists")) {
+                    if (response.code() == 409) {
+                        Log.d("ClDRemoteDataSourceImpl", "[postSignUp] fail User already exists")
+                        val signIn = RequestSignIn(signUp.auth.accessToken, signUp.auth.device, signUp.auth.loginType)
+                        postSignIn(signIn).flowOn(Dispatchers.IO).collect{
+                            emit(it)
+                        }
+                    } else {
+                        //emit(ApiState.Error(response.errorBody()!!.string()))
+                    }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -92,12 +104,14 @@ class ClDRemoteDataSourceImpl @Inject constructor(
 
     override fun getClimbingGyms(
         auth: String,
+        x: Double,
+        y: Double,
         limit: Int,
         skip: Int,
         keyword: String
     ): Flow<Gyms> = flow {
         try {
-            val response = clDApi.getClimbingGyms(auth, limit, skip, keyword)
+            val response = clDApi.getClimbingGyms(auth, x, y, limit, skip, keyword)
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(remoteMapper.mapperToGyms(it))

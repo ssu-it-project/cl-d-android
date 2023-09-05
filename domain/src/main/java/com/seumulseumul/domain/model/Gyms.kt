@@ -9,17 +9,21 @@ data class Gyms(
 data class ClimbingGym(
     val id: String,
 
-    val address: String,
-
-    val date: Date,
-
     val location: Location,
+
+    val place: Place,
+
+    val type: String
+)
+
+data class Place(
+    val addressName: String,
 
     val name: String,
 
-    val phone: String,
+    val parking: Boolean,
 
-    val placeId: String,
+    val roadAddressName: String,
 
-    val type: String
+    val shower: Boolean
 )

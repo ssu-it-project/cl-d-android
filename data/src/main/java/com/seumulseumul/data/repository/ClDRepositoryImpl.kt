@@ -40,12 +40,14 @@ class ClDRepositoryImpl @Inject constructor(
 
     override fun getClimbingGyms(
         auth: String,
+        x: Double,
+        y: Double,
         limit: Int,
         skip: Int,
         keyword: String
     ): Flow<Gyms> =
         clDRemoteDataSource.getClimbingGyms(
-            auth, limit, skip, keyword
+            auth, x, y, limit, skip, keyword
         ).flowOn(Dispatchers.IO)
 
     override fun postClimeRecord(

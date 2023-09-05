@@ -11,35 +11,43 @@ data class ResponseClimeGyms(
 )
 
 data class ClimbingGym(
-    @SerializedName("_id")
+    @SerializedName("id")
     val id: String,
-
-    @SerializedName("address")
-    val address: String,
-
-    @SerializedName("date")
-    val date: Date,
 
     @SerializedName("location")
     val location: Location,
 
-    @SerializedName("name")
-    val name: String,
-
-    @SerializedName("phone")
-    val phone: String,
-
-    @SerializedName("place_id")
-    val placeId: String,
+    @SerializedName("place")
+    val place: Place,
 
     @SerializedName("type")
     val type: String
 )
 
 data class Location(
-    @SerializedName("coordinates")
-    val coordinates: List<Int>,
+    @SerializedName("distance")
+    val distance: Int,
 
-    @SerializedName("type")
-    val type: String
+    @SerializedName("x")
+    val x: Int,
+
+    @SerializedName("y")
+    val y: Int
+)
+
+data class Place(
+    @SerializedName("address_name")
+    val addressName: String,
+
+    @SerializedName("name")
+    val name: String,
+
+    @SerializedName("parking")
+    val parking: Boolean,
+
+    @SerializedName("road_address_name")
+    val roadAddressName: String,
+
+    @SerializedName("shower")
+    val shower: Boolean
 )

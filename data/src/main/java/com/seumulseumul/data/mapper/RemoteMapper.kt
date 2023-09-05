@@ -10,6 +10,7 @@ import com.seumulseumul.data.model.remote.response.ClimbingGymInfo
 import com.seumulseumul.data.model.remote.response.Date
 import com.seumulseumul.data.model.remote.response.Location
 import com.seumulseumul.data.model.remote.response.Pagination
+import com.seumulseumul.data.model.remote.response.Place
 import com.seumulseumul.data.model.remote.response.Record
 import com.seumulseumul.data.model.remote.response.ResponseAuthToken
 import com.seumulseumul.data.model.remote.response.ResponseClimeGyms
@@ -206,12 +207,8 @@ class RemoteMapper @Inject constructor(
         climbingGym: ClimbingGym
     ): com.seumulseumul.domain.model.ClimbingGym = com.seumulseumul.domain.model.ClimbingGym(
         climbingGym.id,
-        climbingGym.address,
-        mapperToDate(climbingGym.date),
         mapperToLocation(climbingGym.location),
-        climbingGym.name,
-        climbingGym.phone,
-        climbingGym.placeId,
+        mapperToPlace(climbingGym.place),
         climbingGym.type
     )
 
@@ -248,15 +245,27 @@ class RemoteMapper @Inject constructor(
     fun mapperToLocation(
         location: Location
     ): com.seumulseumul.domain.model.Location = com.seumulseumul.domain.model.Location(
-        location.coordinates,
-        location.type
+        location.distance,
+        location.x,
+        location.y
     )
 
     fun mapperToResponseLocation(
         location: com.seumulseumul.domain.model.Location
     ): Location = Location(
-        location.coordinates,
-        location.type
+        location.distance,
+        location.x,
+        location.y
+    )
+
+    fun mapperToPlace(
+        place: Place
+    ): com.seumulseumul.domain.model.Place = com.seumulseumul.domain.model.Place(
+        place.addressName,
+        place.name,
+        place.parking,
+        place.roadAddressName,
+        place.shower
     )
 
     fun mapperToRecord(

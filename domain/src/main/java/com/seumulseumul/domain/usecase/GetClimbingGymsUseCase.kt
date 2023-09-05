@@ -10,8 +10,10 @@ class GetClimbingGymsUseCase @Inject constructor(
 ) {
     fun invoke(
         auth: String,
+        x: Double,
+        y: Double,
         limit: Int,
         skip: Int,
         keyword: String
-    ): Flow<Gyms> = repository.getClimbingGyms(auth, limit, skip, keyword)
+    ): Flow<Gyms> = repository.getClimbingGyms(auth, x, y, limit, skip, keyword)
 }

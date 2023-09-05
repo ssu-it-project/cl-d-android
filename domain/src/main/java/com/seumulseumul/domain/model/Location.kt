@@ -1,7 +1,9 @@
 package com.seumulseumul.domain.model
 
 data class Location(
-    val coordinates: List<Int>,
+    val distance: Int,
 
-    val type: String
+    val x: Int,
+
+    val y: Int
 )

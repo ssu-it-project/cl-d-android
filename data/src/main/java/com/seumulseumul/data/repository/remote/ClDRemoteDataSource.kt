@@ -25,6 +25,8 @@ interface ClDRemoteDataSource {
 
     fun getClimbingGyms(
         auth: String,
+        x: Double,
+        y: Double,
         limit: Int,
         skip: Int,
         keyword: String

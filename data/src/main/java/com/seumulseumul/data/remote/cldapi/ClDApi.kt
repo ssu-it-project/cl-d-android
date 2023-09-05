@@ -41,6 +41,8 @@ interface ClDApi {
     @GET(BaseUrl.CL_D_API_GET_GYMS)
     suspend fun getClimbingGyms(
         @Header("Authorization") auth: String,
+        @Query("x") x: Double,
+        @Query("y") y: Double,
         @Query("limit") limit: Int,
         @Query("skip") skip: Int,
         @Query("keyword") keyword: String
