@@ -26,13 +26,13 @@ data class ClimbingGym(
 
 data class Location(
     @SerializedName("distance")
-    val distance: Int,
+    val distance: Double,
 
     @SerializedName("x")
-    val x: Int,
+    val x: Double,
 
     @SerializedName("y")
-    val y: Int
+    val y: Double
 )
 
 data class Place(

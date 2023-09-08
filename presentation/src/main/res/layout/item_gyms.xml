@@ -68,8 +68,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginEnd="5dp"
             android:textSize="12sp"
-            android:textColor="@color/black"
-            android:text="@{climeGym.location.distance}"/>
+            android:textColor="@color/black"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

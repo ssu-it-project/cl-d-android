@@ -39,6 +39,13 @@ class GymsAdapter: ListAdapter<ClimbingGym, GymsAdapter.ViewHolder>(
 
             if (item.place.parking) binding.ivParking.visibility = View.VISIBLE
             else binding.ivParking.visibility = View.GONE
+
+            val distance = item.location.distance.toInt()
+            var distanceString = ""
+            distanceString =
+                if (distance < 1000) "${distance}m"
+                else "${distance/1000}.${(distance%1000).toString().substring(0, 2)}km"
+            binding.tvGymDistance.text = distanceString
         }
     }
 
