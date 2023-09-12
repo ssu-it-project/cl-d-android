@@ -60,7 +60,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="35dp"
         android:padding="1dp"
-        android:background="@drawable/google_login_layout">
+        android:background="@drawable/layout_google_login">
 
         <CheckBox
             android:id="@+id/cb_agree_all"

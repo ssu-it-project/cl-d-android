@@ -29,7 +29,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/main_badge_layout">
+                android:background="@drawable/layout_main_badge">
 
                 <ImageView
                     android:id="@+id/iv_badge_point"

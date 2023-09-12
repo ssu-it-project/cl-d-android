@@ -39,7 +39,7 @@
         android:layout_marginEnd="22dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@drawable/search_layout">
+        android:background="@drawable/layout_search">
 
         <ImageView
             android:id="@+id/iv_search_gym"
