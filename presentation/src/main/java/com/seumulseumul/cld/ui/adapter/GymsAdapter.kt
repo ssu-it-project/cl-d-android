@@ -31,8 +31,9 @@ class GymsAdapter: ListAdapter<ClimbingGym, GymsAdapter.ViewHolder>(
         fun bind(item: ClimbingGym) {
             binding.climeGym = item
 
-            // 임시 썸네일 이미지
-            val profileImage = AppCompatResources.getDrawable(ClDApplication.applicationContext(), R.drawable.gym_thumbnail_example)
+            val profileImage = item.place.imageUrl.ifEmpty {
+                AppCompatResources.getDrawable(ClDApplication.applicationContext(), R.drawable.gym_thumbnail_example)
+            }
             Glide.with(ClDApplication.applicationContext())
                 .load(profileImage)
                 .into(binding.ivGymThumbnail)

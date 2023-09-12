@@ -262,6 +262,7 @@ class RemoteMapper @Inject constructor(
         place: Place
     ): com.seumulseumul.domain.model.Place = com.seumulseumul.domain.model.Place(
         place.addressName,
+        place.imageUrl,
         place.name,
         place.parking,
         place.roadAddressName,

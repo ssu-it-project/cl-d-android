@@ -19,6 +19,8 @@ data class ClimbingGym(
 data class Place(
     val addressName: String,
 
+    val imageUrl: String,
+
     val name: String,
 
     val parking: Boolean,

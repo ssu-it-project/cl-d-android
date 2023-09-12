@@ -39,6 +39,9 @@ data class Place(
     @SerializedName("address_name")
     val addressName: String,
 
+    @SerializedName("image_url")
+    val imageUrl: String,
+
     @SerializedName("name")
     val name: String,
 
