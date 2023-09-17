@@ -8,9 +8,17 @@ import javax.inject.Inject
 class GetClimeRecordUseCase@Inject constructor(
     private val repository: ClDRepository
 ) {
-    fun invoke(
+    fun invokeGetClimeRecord(
         auth: String,
         limit: Int,
         skip: Int
     ): Flow<ClimeRecords> = repository.getClimeRecord(auth, limit, skip)
+
+    fun invokeGetClimeGymRecords(
+        auth: String,
+        id: String,
+        keyword: String,
+        limit: Int,
+        skip: Int,
+    ): Flow<ClimeRecords> = repository.getClimbingGymRecords(auth, id, keyword, limit, skip)
 }

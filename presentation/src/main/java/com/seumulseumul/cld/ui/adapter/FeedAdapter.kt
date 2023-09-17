@@ -2,22 +2,22 @@ package com.seumulseumul.cld.ui.adapter
 
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.MediaPlayer.OnInfoListener
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.VideoView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.seumulseumul.cld.BuildConfig
 import com.seumulseumul.cld.ClDApplication
 import com.seumulseumul.cld.R
 import com.seumulseumul.cld.databinding.ItemFeedBinding
 import com.seumulseumul.domain.model.Record
+import com.seumulseumul.domain.model.Term
 
 
 class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
@@ -31,23 +31,34 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
         }
     }
 ) {
+    public interface OnVideoPlayListener {
+        fun onVideoPlay(videoView: VideoView)
+    }
+    private lateinit var videoPlayerListener: OnVideoPlayListener
+
+    public fun setOnVideoPlayListener(listener: OnVideoPlayListener) {
+        videoPlayerListener = listener
+    }
+
+
     inner class ViewHolder(
         private val binding: ItemFeedBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Record) {
-            val profileImage =
-                item.author.profileImageUrl.ifEmpty {
-                    AppCompatResources.getDrawable(ClDApplication.applicationContext(), R.drawable.profile_image_example)
-                }
-
-            Glide.with(ClDApplication.applicationContext())
-                .load(profileImage)
-                .circleCrop()
-                .into(binding.ivUserProfile)
+            if (item.author.profileImageUrl.isNullOrEmpty()) {
+                Glide.with(ClDApplication.applicationContext())
+                    .load(AppCompatResources.getDrawable(ClDApplication.applicationContext(), R.drawable.profile_image_example))
+                    .circleCrop()
+                    .into(binding.ivUserProfile)
+            } else {
+                Glide.with(ClDApplication.applicationContext())
+                    .load(item.author.profileImageUrl)
+                    .circleCrop()
+                    .into(binding.ivUserProfile)
+            }
             binding.tvUserName.text = item.author.nickname
 
-            val videoUrl = BuildConfig.CL_D_VIDEO_SERVER_BASE_URL + item.id + "/" + item.video
-            binding.vvFeedVideo.setVideoURI(Uri.parse(videoUrl))
+            binding.vvFeedVideo.setVideoURI(Uri.parse(item.video))
             binding.vvFeedVideo.setOnInfoListener { mp, what, extra ->
                 if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
                     Log.d("TESTLOG", "MEDIA_INFO_VIDEO_RENDERING_START")
@@ -67,7 +78,7 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
             binding.tvFeedTitle.text = item.content
             val infoText = "${item.climbingGymInfo.name} | ${item.sector} | ${item.level}"
             binding.tvFeedInfo.text = infoText
-            binding.tvFeedCreatedDate.text = item.date.created
+            binding.tvFeedCreatedDate.text = item.date.created.substring(0, 10)
         }
 
         fun startVideo() {

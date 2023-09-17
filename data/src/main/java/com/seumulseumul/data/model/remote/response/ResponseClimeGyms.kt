@@ -15,7 +15,7 @@ data class ClimbingGym(
     val id: String,
 
     @SerializedName("location")
-    val location: Location,
+    val location: Location?,
 
     @SerializedName("place")
     val place: Place,
@@ -36,6 +36,9 @@ data class Location(
 )
 
 data class Place(
+    @SerializedName("place_id")
+    val placeId: String?,
+
     @SerializedName("address_name")
     val addressName: String,
 
@@ -52,5 +55,11 @@ data class Place(
     val roadAddressName: String,
 
     @SerializedName("shower")
-    val shower: Boolean
+    val shower: Boolean,
+
+    @SerializedName("phone")
+    val phone: String?,
+
+    @SerializedName("place_url")
+    val placeUrl: String?
 )

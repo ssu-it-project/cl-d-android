@@ -54,7 +54,7 @@ data class Author(
     val nickname: String,
 
     @SerializedName("profile_image_url")
-    val profileImageUrl: String
+    val profileImageUrl: String?
 )
 
 data class ClimbingGymInfo(

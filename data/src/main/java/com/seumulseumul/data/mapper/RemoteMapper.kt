@@ -207,7 +207,7 @@ class RemoteMapper @Inject constructor(
         climbingGym: ClimbingGym
     ): com.seumulseumul.domain.model.ClimbingGym = com.seumulseumul.domain.model.ClimbingGym(
         climbingGym.id,
-        mapperToLocation(climbingGym.location),
+        if (climbingGym.location == null) null else mapperToLocation(climbingGym.location),
         mapperToPlace(climbingGym.place),
         climbingGym.type
     )
@@ -261,12 +261,15 @@ class RemoteMapper @Inject constructor(
     fun mapperToPlace(
         place: Place
     ): com.seumulseumul.domain.model.Place = com.seumulseumul.domain.model.Place(
+        place.placeId,
         place.addressName,
         place.imageUrl,
         place.name,
         place.parking,
         place.roadAddressName,
-        place.shower
+        place.shower,
+        place.phone,
+        place.placeUrl
     )
 
     fun mapperToRecord(

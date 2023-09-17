@@ -1,5 +1,7 @@
 package com.seumulseumul.cld.ui.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.seumulseumul.cld.ClDApplication
 import com.seumulseumul.cld.R
 import com.seumulseumul.cld.databinding.ItemGymsBinding
+import com.seumulseumul.cld.ui.gym.GymDetailActivity
 import com.seumulseumul.domain.model.ClimbingGym
 
 class GymsAdapter: ListAdapter<ClimbingGym, GymsAdapter.ViewHolder>(
@@ -24,6 +27,8 @@ class GymsAdapter: ListAdapter<ClimbingGym, GymsAdapter.ViewHolder>(
         }
     }
 ) {
+
+    private lateinit var context: Context
 
     inner class ViewHolder(
         private val binding: ItemGymsBinding
@@ -41,16 +46,28 @@ class GymsAdapter: ListAdapter<ClimbingGym, GymsAdapter.ViewHolder>(
             if (item.place.parking) binding.ivParking.visibility = View.VISIBLE
             else binding.ivParking.visibility = View.GONE
 
-            val distance = item.location.distance.toInt()
-            var distanceString = ""
-            distanceString =
-                if (distance < 1000) "${distance}m"
-                else "${distance/1000}.${(distance%1000).toString().substring(0, 2)}km"
-            binding.tvGymDistance.text = distanceString
+            if (item.location == null) {
+                binding.tvGymDistance.visibility = View.GONE
+            } else {
+                val distance = item.location!!.distance.toInt()
+                var distanceString = ""
+
+                distanceString =
+                    if (distance < 1000) "${distance}m"
+                    else "${distance/1000}.${(distance%1000).toString().padStart(2, '0').substring(0, 2)}km"
+                binding.tvGymDistance.text = distanceString
+            }
+
+            binding.layoutGym.setOnClickListener {
+                val intent = Intent(context, GymDetailActivity::class.java)
+                intent.putExtra("id", item.id)
+                context.startActivity(intent)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        context = parent.context
         return ViewHolder(
             ItemGymsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )

@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
         skip: Int = 0
     ) = viewModelScope.launch {
         getClimeRecordUseCase
-            .invoke(auth, limit, skip)
+            .invokeGetClimeRecord(auth, limit, skip)
             .catch {
                 it.printStackTrace()
             }.collect {

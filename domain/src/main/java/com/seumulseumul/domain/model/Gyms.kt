@@ -9,7 +9,7 @@ data class Gyms(
 data class ClimbingGym(
     val id: String,
 
-    val location: Location,
+    val location: Location?,
 
     val place: Place,
 
@@ -17,6 +17,8 @@ data class ClimbingGym(
 )
 
 data class Place(
+    val placeId: String?,
+
     val addressName: String,
 
     val imageUrl: String,
@@ -27,5 +29,9 @@ data class Place(
 
     val roadAddressName: String,
 
-    val shower: Boolean
+    val shower: Boolean,
+
+    val phone: String?,
+
+    val placeUrl: String?
 )

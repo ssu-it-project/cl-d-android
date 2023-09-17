@@ -41,6 +41,12 @@
         <activity android:name=".ui.term.TermDetailActivity"
             android:exported="true"/>
 
+        <activity android:name=".ui.gym.GymDetailActivity"
+            android:exported="true"/>
+
+        <activity android:name=".ui.video.VideoDetailActivity"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import com.seumulseumul.data.mapper.RemoteMapper
 import com.seumulseumul.data.repository.remote.ClDRemoteDataSource
 import com.seumulseumul.data.util.FormDataUtil
 import com.seumulseumul.domain.model.AuthToken
+import com.seumulseumul.domain.model.ClimbingGym
 import com.seumulseumul.domain.model.ClimeRecords
 import com.seumulseumul.domain.model.Gyms
 import com.seumulseumul.domain.model.RefreshToken
@@ -48,6 +49,51 @@ class ClDRepositoryImpl @Inject constructor(
     ): Flow<Gyms> =
         clDRemoteDataSource.getClimbingGyms(
             auth, x, y, limit, skip, keyword
+        ).flowOn(Dispatchers.IO)
+
+    override fun getClimbingGymDetail(
+        auth: String,
+        id: String
+    ): Flow<ClimbingGym> =
+        clDRemoteDataSource.getClimbingGymDetail(
+            auth, id
+        ).flowOn(Dispatchers.IO)
+
+    override fun postClimbingGymBookmark(
+        auth: String,
+        id: String
+    ): Flow<Any> =
+        clDRemoteDataSource.postClimbingGymBookmark(
+            auth, id
+        ).flowOn(Dispatchers.IO)
+
+    override fun deleteClimbingGymBookmark(
+        auth: String,
+        id: String
+    ): Flow<Any> =
+        clDRemoteDataSource.deleteClimbingGymBookmark(
+        auth, id
+        ).flowOn(Dispatchers.IO)
+
+    override fun getClimbingGymBookmark(
+        auth: String,
+        keyword: String,
+        limit: Int,
+        skip: Int
+    ): Flow<Gyms> =
+        clDRemoteDataSource.getClimbingGymBookmark(
+            auth, keyword, limit, skip
+        ).flowOn(Dispatchers.IO)
+
+    override fun getClimbingGymRecords(
+        auth: String,
+        id: String,
+        keyword: String,
+        limit: Int,
+        skip: Int
+    ): Flow<ClimeRecords> =
+        clDRemoteDataSource.getClimbingGymRecords(
+            auth, id, keyword, limit, skip
         ).flowOn(Dispatchers.IO)
 
     override fun postClimeRecord(

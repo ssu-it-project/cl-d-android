@@ -1,6 +1,7 @@
 package com.seumulseumul.domain.repository
 
 import com.seumulseumul.domain.model.AuthToken
+import com.seumulseumul.domain.model.ClimbingGym
 import com.seumulseumul.domain.model.ClimeRecords
 import com.seumulseumul.domain.model.Gyms
 import com.seumulseumul.domain.model.RefreshToken
@@ -31,6 +32,36 @@ interface ClDRepository {
         skip: Int,
         keyword: String
     ): Flow<Gyms>
+
+    fun getClimbingGymDetail(
+        auth: String,
+        id: String,
+    ): Flow<ClimbingGym>
+
+    fun postClimbingGymBookmark(
+        auth: String,
+        id: String,
+    ): Flow<Any>
+
+    fun deleteClimbingGymBookmark(
+        auth: String,
+        id: String,
+    ): Flow<Any>
+
+    fun getClimbingGymBookmark(
+        auth: String,
+        keyword: String,
+        limit: Int,
+        skip: Int,
+    ): Flow<Gyms>
+
+    fun getClimbingGymRecords(
+        auth: String,
+        id: String,
+        keyword: String,
+        limit: Int,
+        skip: Int,
+    ): Flow<ClimeRecords>
 
     fun postClimeRecord(
         auth: String,

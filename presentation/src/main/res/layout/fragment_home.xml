@@ -29,7 +29,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/layout_main_badge">
+                android:background="@drawable/layout_main_badge"
+                android:elevation="6dp">
 
                 <ImageView
                     android:id="@+id/iv_badge_point"
@@ -39,7 +40,8 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_badge_point"
                     app:layout_constraintRight_toLeftOf="@id/tv_badge_point"
                     android:layout_marginEnd="4dp"
-                    android:src="@drawable/ic_badge_point"/>
+                    android:src="@drawable/ic_badge_point"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_badge_point"
@@ -49,7 +51,8 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="10dp"
-                    android:text="12"/>
+                    android:text="12"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/iv_badge"
@@ -61,7 +64,8 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginStart="15dp"
-                    android:src="@drawable/ic_badge_example"/>
+                    android:src="@drawable/ic_badge_example"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tv_badge_title"
@@ -75,7 +79,7 @@
                     android:textSize="16sp"
                     android:textColor="#EBA640"
                     android:textStyle="bold"
-                    android:text="돌잡이들의 왕"/>
+                    android:text="@string/title_not_exist_badge"/>
 
                 <TextView
                     android:id="@+id/tv_badge_description"
@@ -88,7 +92,8 @@
                     android:layout_marginTop="10dp"
                     android:textSize="11sp"
                     android:textColor="#4C37CD"
-                    android:text="돌잡이들의 왕"/>
+                    android:text="돌잡이들의 왕"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tv_badge_rate"
@@ -100,7 +105,7 @@
                     app:layout_constraintRight_toRightOf="@id/tv_badge_title"
                     android:textSize="11sp"
                     android:textColor="#5A5A5A"
-                    android:text="돌잡이 중 10% 획득"/>
+                    android:text="@string/description_not_exist_badge"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -113,6 +118,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="?attr/actionBarSize"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

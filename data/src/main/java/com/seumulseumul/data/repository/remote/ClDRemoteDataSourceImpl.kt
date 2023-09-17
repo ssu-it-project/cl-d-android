@@ -7,6 +7,7 @@ import com.seumulseumul.data.model.remote.request.RequestSignIn
 import com.seumulseumul.data.model.remote.request.RequestSignUp
 import com.seumulseumul.data.remote.cldapi.ClDApi
 import com.seumulseumul.domain.model.AuthToken
+import com.seumulseumul.domain.model.ClimbingGym
 import com.seumulseumul.domain.model.ClimeRecords
 import com.seumulseumul.domain.model.Gyms
 import com.seumulseumul.domain.model.Term
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -126,6 +128,131 @@ class ClDRemoteDataSourceImpl @Inject constructor(
             }
         } catch (e: Exception) {
             Log.d("ClDRemoteDataSourceImpl", "[getClimbingGyms] fail: $e")
+            //emit(ApiState.Error(e.message ?: ""))
+        } as Unit
+    }
+
+    override fun getClimbingGymDetail(
+        auth: String,
+        id: String
+    ): Flow<ClimbingGym> = flow {
+        try {
+            val response = clDApi.getClimbingGymDetail(auth, id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(remoteMapper.mapperToClimbingGym(it))
+                }
+            } else {
+                try {
+                    Log.d("ClDRemoteDataSourceImpl", "[getClimbingGymDetail] fail: ${response.errorBody()!!.string()}")
+                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("ClDRemoteDataSourceImpl", "[getClimbingGymDetail] fail: $e")
+            //emit(ApiState.Error(e.message ?: ""))
+        } as Unit
+    }
+
+    override fun postClimbingGymBookmark(
+        auth: String,
+        id: String
+    ): Flow<Any> = flow {
+        try {
+            val response = clDApi.postClimbingGymBookmark(auth, id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(it)
+                }
+            } else {
+                try {
+                    Log.d("ClDRemoteDataSourceImpl", "[postClimeRecord] fail: ${response.errorBody()!!.string()}")
+                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("ClDRemoteDataSourceImpl", "[postClimeRecord] fail: $e")
+            //emit(ApiState.Error(e.message ?: ""))
+        } as Unit
+    }
+
+    override fun deleteClimbingGymBookmark(
+        auth: String,
+        id: String
+    ): Flow<Any> = flow {
+        try {
+            val response = clDApi.deleteClimbingGymBookmark(auth, id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(it)
+                }
+            } else {
+                try {
+                    Log.d("ClDRemoteDataSourceImpl", "[deleteClimbingGymBookmark] fail: ${response.errorBody()!!.string()}")
+                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("ClDRemoteDataSourceImpl", "[deleteClimbingGymBookmark] fail: $e")
+            //emit(ApiState.Error(e.message ?: ""))
+        } as Unit
+    }
+
+    override fun getClimbingGymBookmark(
+        auth: String,
+        keyword: String,
+        limit: Int,
+        skip: Int
+    ): Flow<Gyms> = flow {
+        try {
+            val response = clDApi.getClimbingGymBookmark(auth, keyword, limit, skip)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(remoteMapper.mapperToGyms(it))
+                }
+            } else {
+                try {
+                    Log.d("ClDRemoteDataSourceImpl", "[getClimbingGymBookmark] fail: ${response.errorBody()!!.string()}")
+                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("ClDRemoteDataSourceImpl", "[getClimbingGymBookmark] fail: $e")
+            //emit(ApiState.Error(e.message ?: ""))
+        } as Unit
+    }
+
+    override fun getClimbingGymRecords(
+        auth: String,
+        id: String,
+        keyword: String,
+        limit: Int,
+        skip: Int
+    ): Flow<ClimeRecords> = flow {
+        try {
+            val response = clDApi.getClimbingGymRecords(auth, id, keyword, limit, skip)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(remoteMapper.mapperToClimeRecords(it))
+                }
+            } else {
+                try {
+                    Log.d("ClDRemoteDataSourceImpl", "[ge   tClimbingGymRecords] fail: ${response.errorBody()!!.string()}")
+                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("ClDRemoteDataSourceImpl", "[getClimbingGymRecords] fail: $e")
             //emit(ApiState.Error(e.message ?: ""))
         } as Unit
     }

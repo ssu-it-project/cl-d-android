@@ -30,14 +30,14 @@ android {
         debug {
             resValue "string", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             buildConfigField "String", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
-            manifestPlaceholders["KAKAO_API_KEY"] = properties["KAKAO_API_KEY"] as String
-            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.s3.ap-northeast-2.amazonaws.com/clime_record/\""
+            manifestPlaceholders ["KAKAO_API_KEY"] = properties["KAKAO_API_KEY_FOR_MANIFEST"] as String
+            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.com/\""
         }
         release {
             resValue "string", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             buildConfigField "String", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
-            manifestPlaceholders["KAKAO_API_KEY"] = properties["KAKAO_API_KEY"] as String
-            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.s3.ap-northeast-2.amazonaws.com/clime_record/\""
+            manifestPlaceholders["KAKAO_API_KEY"] = properties["KAKAO_API_KEY_FOR_MANIFEST"] as String
+            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.com/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -53,6 +53,14 @@ android {
         dataBinding true
         viewBinding true
     }
+    /*splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi-v7a', 'x86_64'
+            universalApk true
+        }
+    }*/
 }
 
 dependencies {
