@@ -23,11 +23,11 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField 'String', "CL_D_SERVER_BASE_URL", "\"http://ec2-13-209-11-183.ap-northeast-2.compute.amazonaws.com:1323/\""
+            buildConfigField 'String', "CL_D_SERVER_BASE_URL", "\"https://cl-d.com/\""
         }
         release {
             minifyEnabled false
-            buildConfigField 'String', "CL_D_SERVER_BASE_URL", "\"http://ec2-13-209-11-183.ap-northeast-2.compute.amazonaws.com:1323/\""
+            buildConfigField 'String', "CL_D_SERVER_BASE_URL", "\"https://cl-d.com/\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
