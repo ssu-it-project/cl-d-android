@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.seumulseumul.cld.databinding.FragmentRecordSectorBinding
+import com.seumulseumul.cld.databinding.FragmentRecordVideoBinding
 
-class RecordSectorFragment: Fragment() {
-    private var _binding: FragmentRecordSectorBinding? = null
+class RecordVideoFragment: Fragment() {
+    private var _binding: FragmentRecordVideoBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -16,7 +16,7 @@ class RecordSectorFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRecordSectorBinding.inflate(inflater, container, false)
+        _binding = FragmentRecordVideoBinding.inflate(inflater,container, false)
 
         return binding.root
     }

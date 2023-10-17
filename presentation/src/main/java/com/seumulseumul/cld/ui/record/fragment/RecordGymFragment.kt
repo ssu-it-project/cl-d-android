@@ -15,7 +15,7 @@ class RecordGymFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRecordGymBinding.inflate(inflater, container, false)
 
 

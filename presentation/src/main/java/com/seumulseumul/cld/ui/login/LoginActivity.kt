@@ -22,10 +22,10 @@ class LoginActivity: AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (PrefData.getBoolean(PrefKey.isLogin, false)) {
+        //if (PrefData.getBoolean(PrefKey.isLogin, false)) {
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
-        }
+        //}
 
         super.onCreate(savedInstanceState)
 
