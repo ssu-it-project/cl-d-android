@@ -151,10 +151,10 @@ class RecordDialog: BottomSheetDialogFragment() {
         binding.viewPagerRecord.adapter = recordFragmentAdapter
         TabLayoutMediator(binding.tabLayoutRecord, binding.viewPagerRecord) {tab, position ->
             when (position) {
-                0 -> {tab.text = getString(R.string.title_record_gym)}
-                1 -> {tab.text = getString(R.string.title_record_sector)}
-                2 -> {tab.text = getString(R.string.title_record_level)}
-                3 -> {tab.text = getString(R.string.title_record_video)}
+                0 -> {tab.text = getString(R.string.title_record_video)}
+                1 -> {tab.text = getString(R.string.title_record_gym)}
+                2 -> {tab.text = getString(R.string.title_record_sector)}
+                3 -> {tab.text = getString(R.string.title_record_level)}
             }
         }.attach()
         binding.tabLayoutRecord.addOnTabSelectedListener(tabLayoutOnPageChangeListener)

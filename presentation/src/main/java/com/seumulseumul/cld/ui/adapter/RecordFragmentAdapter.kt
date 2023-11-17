@@ -18,10 +18,10 @@ class RecordFragmentAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> recordGymFragment
-            1 -> recordSectorFragment
-            2 -> recordLevelFragment
-            3 -> recordVideoFragment
+            0 -> recordVideoFragment
+            1 -> recordGymFragment
+            2 -> recordSectorFragment
+            3 -> recordLevelFragment
             else -> recordGymFragment
         }
     }
