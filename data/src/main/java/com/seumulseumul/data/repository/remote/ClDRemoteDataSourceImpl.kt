@@ -263,10 +263,11 @@ class ClDRemoteDataSourceImpl @Inject constructor(
         content: MultipartBody.Part,
         sector: MultipartBody.Part,
         level: MultipartBody.Part,
+        resolution: MultipartBody.Part,
         video: MultipartBody.Part
     ): Flow<Any> = flow {
         try {
-            val response = clDApi.postClimeRecord(auth, climbingGymId, content, sector, level, video)
+            val response = clDApi.postClimeRecord(auth, climbingGymId, content, sector, level, resolution, video)
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(it)
@@ -275,6 +276,7 @@ class ClDRemoteDataSourceImpl @Inject constructor(
                 try {
                     Log.d("ClDRemoteDataSourceImpl", "[postClimeRecord] fail: ${response.errorBody()!!.string()}")
                     //emit(ApiState.Error(response.errorBody()!!.string()))
+                    emit("error")
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -299,7 +301,7 @@ class ClDRemoteDataSourceImpl @Inject constructor(
             } else {
                 try {
                     Log.d("ClDRemoteDataSourceImpl", "[getClimeRecord] fail: ${response.errorBody()!!.string()}")
-                    //emit(ApiState.Error(response.errorBody()!!.string()))
+                    //emit(ApiState.Error(response.errorBody()!!.string()))x
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }

@@ -15,6 +15,7 @@ import com.seumulseumul.domain.repository.ClDRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
@@ -102,7 +103,8 @@ class ClDRepositoryImpl @Inject constructor(
         content: String,
         sector: String,
         level: String,
-        video: File
+        resolution: String,
+        video: File,
     ): Flow<Any> =
         clDRemoteDataSource.postClimeRecord(
             auth,
@@ -110,7 +112,8 @@ class ClDRepositoryImpl @Inject constructor(
             FormDataUtil.getBody("content", content),
             FormDataUtil.getBody("sector", sector),
             FormDataUtil.getBody("level", level),
-            FormDataUtil.getVideoBody("video", video),
+            FormDataUtil.getBody("resolution", resolution),
+            FormDataUtil.getVideoBody("video", video)
         ).flowOn(Dispatchers.IO)
 
     override fun getClimeRecord(

@@ -16,6 +16,7 @@ import com.seumulseumul.data.model.remote.response.ResponseAuthToken
 import com.seumulseumul.data.model.remote.response.ResponseClimeGyms
 import com.seumulseumul.data.model.remote.response.ResponseClimeRecords
 import com.seumulseumul.data.model.remote.response.Term
+import com.seumulseumul.data.model.remote.response.Video
 import com.seumulseumul.domain.model.Agreement
 import com.seumulseumul.domain.model.AuthToken
 import com.seumulseumul.domain.model.ClimeRecords
@@ -282,9 +283,10 @@ class RemoteMapper @Inject constructor(
         record.id,
         record.image,
         record.level,
+        record.isLike,
         record.likeCount,
         record.sector,
-        record.video,
+        mapperToVideo(record.video),
         record.viewCount
     )
 
@@ -301,6 +303,14 @@ class RemoteMapper @Inject constructor(
     ): com.seumulseumul.domain.model.ClimbingGymInfo = com.seumulseumul.domain.model.ClimbingGymInfo(
         climbingGymInfo.id,
         climbingGymInfo.name
+    )
+
+    fun mapperToVideo(
+        video: Video
+    ): com.seumulseumul.domain.model.Video = com.seumulseumul.domain.model.Video(
+        video.original,
+        video.video480,
+        video.resolution
     )
 
     /* ---------------------------------------------------------------- */

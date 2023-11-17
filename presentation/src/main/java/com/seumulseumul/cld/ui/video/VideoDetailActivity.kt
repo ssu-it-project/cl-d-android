@@ -57,7 +57,7 @@ class VideoDetailActivity: AppCompatActivity() {
         binding.tvRecordInfo.text = infoText
         binding.tvRecordCreatedDate.text = recordInfo?.date?.created?.substring(0, 10)
 
-        binding.vvRecord.setVideoURI(Uri.parse(recordInfo?.video))
+        binding.vvRecord.setVideoURI(Uri.parse(recordInfo?.video?.original))
         binding.vvRecord.setOnInfoListener { mp, what, extra ->
             if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
                 Log.d("TESTLOG", "MEDIA_INFO_VIDEO_RENDERING_START")

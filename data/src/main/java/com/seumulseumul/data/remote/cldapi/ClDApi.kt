@@ -91,20 +91,21 @@ interface ClDApi {
         @Query("skip") skip: Int,
     ): Response<ResponseClimeRecords>
 
-    @Headers("Accept: application/json", "Content-Type: application/json")
+    @Headers("Accept: application/json")
     @Multipart
-    @POST(BaseUrl.CL_D_API_GET_POST_RECORD)
+    @POST("clime/record")
     suspend fun postClimeRecord(
         @Header("Authorization") auth: String,
         @Part climbingGymId: MultipartBody.Part,
         @Part content: MultipartBody.Part,
         @Part sector: MultipartBody.Part,
         @Part level: MultipartBody.Part,
+        @Part resolution: MultipartBody.Part,
         @Part video: MultipartBody.Part
     ): Response<Any>
 
     @Headers("Accept: application/json", "Content-Type: application/json")
-    @GET(BaseUrl.CL_D_API_GET_POST_RECORD)
+    @GET("clime/records")
     suspend fun getClimeRecord(
         @Header("Authorization") auth: String,
         @Query("limit") limit: Int,

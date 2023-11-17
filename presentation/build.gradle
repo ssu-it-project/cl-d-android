@@ -31,13 +31,14 @@ android {
             resValue "string", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             buildConfigField "String", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             manifestPlaceholders ["KAKAO_API_KEY"] = properties["KAKAO_API_KEY_FOR_MANIFEST"] as String
-            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.com/\""
+            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.com/api/\""
         }
         release {
             resValue "string", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             buildConfigField "String", "KAKAO_API_KEY", properties["KAKAO_API_KEY"]
             manifestPlaceholders["KAKAO_API_KEY"] = properties["KAKAO_API_KEY_FOR_MANIFEST"] as String
-            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "http://ec2-13-124-75-181.ap-northeast-2.compute.amazonaws.com:1323//\""
+            //buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "http://ec2-13-124-75-181.ap-northeast-2.compute.amazonaws.com:1323//\""
+            buildConfigField 'String', "CL_D_VIDEO_SERVER_BASE_URL", "\"https://cl-d.com/api/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -79,6 +80,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation "androidx.activity:activity-ktx:1.7.0"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -101,4 +103,7 @@ dependencies {
 
     // Kakao Login
     implementation "com.kakao.sdk:v2-user:2.15.0"
+
+    // lottie
+    implementation("com.airbnb.android:lottie:6.1.0")
 }

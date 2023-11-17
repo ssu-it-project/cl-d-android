@@ -69,6 +69,7 @@ interface ClDRemoteDataSource {
         content: MultipartBody.Part,
         sector: MultipartBody.Part,
         level: MultipartBody.Part,
+        resolution: MultipartBody.Part,
         video: MultipartBody.Part
     ): Flow<Any>
 

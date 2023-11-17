@@ -7,7 +7,7 @@ data class ResponseClimeRecords(
     val pagination: Pagination,
 
     // 서버 측 오타. 추후 변경 가능
-    @SerializedName("Records")
+    @SerializedName("records")
     val records: List<Record>
 )
 
@@ -31,13 +31,16 @@ data class Record(
     val content: String,
 
     @SerializedName("video")
-    val video: String,
+    val video: Video,
 
     @SerializedName("image")
-    val image: String,
+    val image: String?,
 
     @SerializedName("view_count")
     val viewCount: Int,
+
+    @SerializedName("is_like")
+    val isLike: Boolean,
 
     @SerializedName("like_count")
     val likeCount: Int,
@@ -53,7 +56,7 @@ data class Author(
     @SerializedName("nickname")
     val nickname: String,
 
-    @SerializedName("profile_image_url")
+    @SerializedName("profile_image")
     val profileImageUrl: String?
 )
 

@@ -1,5 +1,6 @@
 package com.seumulseumul.domain.repository
 
+import android.net.Uri
 import com.seumulseumul.domain.model.AuthToken
 import com.seumulseumul.domain.model.ClimbingGym
 import com.seumulseumul.domain.model.ClimeRecords
@@ -9,6 +10,7 @@ import com.seumulseumul.domain.model.SignIn
 import com.seumulseumul.domain.model.SignUp
 import com.seumulseumul.domain.model.Term
 import kotlinx.coroutines.flow.Flow
+import okhttp3.RequestBody
 import java.io.File
 
 interface ClDRepository {
@@ -69,7 +71,8 @@ interface ClDRepository {
         content: String,
         sector: String,
         level: String,
-        video: File
+        resolution: String,
+        video: File,
     ): Flow<Any>
 
     fun getClimeRecord(

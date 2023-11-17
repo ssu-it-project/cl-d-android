@@ -19,15 +19,17 @@ data class Record(
 
     val id: String,
 
-    val image: String,
+    val image: String?,
 
     val level: String,
+
+    val isLike: Boolean,
 
     val likeCount: Int,
 
     val sector: String,
 
-    val video: String,
+    val video: Video,
 
     val viewCount: Int
 ): Serializable

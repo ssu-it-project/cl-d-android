@@ -16,11 +16,11 @@ import com.bumptech.glide.Glide
 import com.seumulseumul.cld.ClDApplication
 import com.seumulseumul.cld.R
 import com.seumulseumul.cld.databinding.ItemFeedBinding
+import com.seumulseumul.cld.databinding.ItemHomeBadgeBinding
 import com.seumulseumul.domain.model.Record
-import com.seumulseumul.domain.model.Term
 
 
-class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
+class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
     object : DiffUtil.ItemCallback<Record>() {
         override fun areItemsTheSame(oldItem: Record, newItem: Record): Boolean {
             return oldItem.id == newItem.id
@@ -31,20 +31,24 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
         }
     }
 ) {
-    public interface OnVideoPlayListener {
-        fun onVideoPlay(videoView: VideoView)
-    }
-    private lateinit var videoPlayerListener: OnVideoPlayListener
-
-    public fun setOnVideoPlayListener(listener: OnVideoPlayListener) {
-        videoPlayerListener = listener
+    enum class ViewType {
+        BADGE, FEED
     }
 
+    private var currentPlayingPosition: Int = 0
 
-    inner class ViewHolder(
+    inner class BadgeViewHolder(
+        private val binding: ItemHomeBadgeBinding
+    ): RecyclerView.ViewHolder(binding.root) {
+        fun bind() {
+
+        }
+    }
+
+    inner class FeedViewHolder(
         private val binding: ItemFeedBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Record) {
+        fun bind(item: Record, position: Int) {
             if (item.author.profileImageUrl.isNullOrEmpty()) {
                 Glide.with(ClDApplication.applicationContext())
                     .load(AppCompatResources.getDrawable(ClDApplication.applicationContext(), R.drawable.profile_image_example))
@@ -58,7 +62,11 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
             }
             binding.tvUserName.text = item.author.nickname
 
-            binding.vvFeedVideo.setVideoURI(Uri.parse(item.video))
+            val videoUrl = if (item.video.video480.isNullOrEmpty()) item.video.original
+            else item.video.video480
+            Log.d("TESTLOG", "videoUrl: $videoUrl")
+
+            binding.vvFeedVideo.setVideoURI(Uri.parse(videoUrl))
             binding.vvFeedVideo.setOnInfoListener { mp, what, extra ->
                 if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
                     Log.d("TESTLOG", "MEDIA_INFO_VIDEO_RENDERING_START")
@@ -79,18 +87,28 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
             val infoText = "${item.climbingGymInfo.name} | ${item.sector} | ${item.level}"
             binding.tvFeedInfo.text = infoText
             binding.tvFeedCreatedDate.text = item.date.created.substring(0, 10)
+
+            if (position == currentPlayingPosition) {
+                startVideo()
+            } else {
+                stopVideo()
+            }
         }
 
-        fun startVideo() {
+        private fun startVideo() {
             if (!binding.vvFeedVideo.isPlaying) {
                 binding.vvFeedVideo.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE)
+                binding.vvFeedVideo.setOnCompletionListener {
+                    binding.vvFeedVideo.start()
+                }
+                binding.vvFeedVideo.seekTo(0)
                 binding.vvFeedVideo.start()
                 binding.pbLoadingVideo.visibility = View.VISIBLE
                 Log.d("TESTLOG", "vvFeedVideo.start()")
             }
         }
 
-        fun stopVideo() {
+        private fun stopVideo() {
             if(binding.vvFeedVideo.isPlaying) {
                 binding.pbLoadingVideo.visibility = View.VISIBLE
                 binding.vvFeedVideo.pause()
@@ -98,21 +116,44 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        when (viewType) {
+            ViewType.BADGE.ordinal -> {
+                return BadgeViewHolder(
+                    ItemHomeBadgeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+
+            ViewType.FEED.ordinal -> {
+                return FeedViewHolder(
+                    ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+
+            else -> {
+                return FeedViewHolder(
+                    ItemFeedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is BadgeViewHolder -> holder.bind()
+            is FeedViewHolder -> holder.bind(getItem(position), position)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        return if (position == 0) {
+            ViewType.BADGE.ordinal
+        } else {
+            ViewType.FEED.ordinal
+        }
     }
 
-    override fun onViewAttachedToWindow(holder: ViewHolder) {
+    /*override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
         Log.d("TESTLOG", "onViewAttachedToWindow")
         holder.startVideo()
@@ -122,5 +163,14 @@ class FeedAdapter: ListAdapter<Record, FeedAdapter.ViewHolder>(
         super.onViewDetachedFromWindow(holder)
         Log.d("TESTLOG", "onViewDetachedFromWindow")
         holder.stopVideo()
+    }*/
+
+    fun setCurrentPlayingPosition(position: Int) {
+        if (currentPlayingPosition != position) {
+            val previousPlayingPosition = currentPlayingPosition
+            currentPlayingPosition = position
+            notifyItemChanged(previousPlayingPosition)
+            notifyItemChanged(position)
+        }
     }
 }
