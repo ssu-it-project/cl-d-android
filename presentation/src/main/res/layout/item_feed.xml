@@ -35,7 +35,8 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_more"/>
+        android:src="@drawable/ic_more"
+        android:visibility="invisible"/>
 
     <VideoView
         android:id="@+id/vv_feed_video"
@@ -79,7 +80,8 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_share"/>
+        android:src="@drawable/ic_share"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/iv_feed_comment"
@@ -89,7 +91,8 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_feed_share"
         app:layout_constraintRight_toLeftOf="@id/iv_feed_share"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_comment"/>
+        android:src="@drawable/ic_comment"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/iv_feed_like"
@@ -99,7 +102,8 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_feed_share"
         app:layout_constraintRight_toLeftOf="@id/iv_feed_comment"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_like"/>
+        android:src="@drawable/ic_like"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tv_feed_info"

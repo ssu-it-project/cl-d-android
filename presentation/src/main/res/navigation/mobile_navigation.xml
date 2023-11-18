@@ -11,12 +11,6 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/navigation_search"
-        android:name="com.seumulseumul.cld.ui.search.SearchFragment"
-        android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
-
     <dialog
         android:id="@+id/navigation_record"
         android:name="com.seumulseumul.cld.ui.record.RecordDialog"
@@ -24,15 +18,22 @@
         tools:layout="@layout/dialog_record" />
 
     <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.seumulseumul.cld.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+
+    <!--<fragment
         android:id="@+id/navigation_community"
         android:name="com.seumulseumul.cld.ui.comunnity.CommunityFragment"
         android:label="@string/title_community"
-        tools:layout="@layout/fragment_community" />
+        tools:layout="@layout/fragment_community" />-->
 
-    <fragment
+    <!--<fragment
         android:id="@+id/navigation_profile"
         android:name="com.seumulseumul.cld.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" />-->
 
 </navigation>

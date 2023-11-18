@@ -96,10 +96,11 @@ class GymDetailActivity: AppCompatActivity(), MapView.POIItemEventListener {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.titleRecordSharedFlow.collect {
-                    if (it.records.isEmpty()) {
+                    binding.layoutGymVideo.visibility = View.GONE
+                    /*if (it.records.isEmpty()) {
                         binding.layoutGymVideo.visibility = View.GONE
                     } else {
-                        /*binding.vvGymVideo.setVideoURI(Uri.parse(it.records[0].video))
+                        *//*binding.vvGymVideo.setVideoURI(Uri.parse(it.records[0].video))
 
                         binding.vvGymVideo.setOnInfoListener { mp, what, extra ->
                             if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
@@ -116,12 +117,12 @@ class GymDetailActivity: AppCompatActivity(), MapView.POIItemEventListener {
                             }
                             false
                         }
-                        binding.vvGymVideo.seekTo(1)*/
+                        binding.vvGymVideo.seekTo(1)*//*
                         Glide.with(this@GymDetailActivity)
                             .load(it.records[0].video)
                             .into(binding.ivGymVideo)
                         recordInfo = it.records[0]
-                    }
+                    }*/
                 }
             }
         }
