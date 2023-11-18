@@ -1,14 +1,18 @@
 package com.seumulseumul.cld.ui.adapter
 
+import android.graphics.Bitmap
 import android.media.AudioManager
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
+import android.media.ThumbnailUtils
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.VideoView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +21,13 @@ import com.seumulseumul.cld.ClDApplication
 import com.seumulseumul.cld.R
 import com.seumulseumul.cld.databinding.ItemFeedBinding
 import com.seumulseumul.cld.databinding.ItemHomeBadgeBinding
+import com.seumulseumul.cld.util.VideoThumbnailUtil
 import com.seumulseumul.domain.model.Record
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 
 class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
@@ -34,8 +44,6 @@ class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
     enum class ViewType {
         BADGE, FEED
     }
-
-    private var currentPlayingPosition: Int = 0
 
     inner class BadgeViewHolder(
         private val binding: ItemHomeBadgeBinding
@@ -66,11 +74,23 @@ class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
             else item.video.video480
             Log.d("TESTLOG", "videoUrl: $videoUrl")
 
+            if (item.image.isNullOrEmpty()) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val getThumbnail = async(Dispatchers.IO) {
+                        VideoThumbnailUtil().getWebVideoThumbnail(Uri.parse("$videoUrl"))
+                    }
+                    launch {
+                        binding.ivFeedThumbnail.setImageBitmap(getThumbnail.await())
+                    }
+                }
+            }
+
             binding.vvFeedVideo.setVideoURI(Uri.parse(videoUrl))
             binding.vvFeedVideo.setOnInfoListener { mp, what, extra ->
                 if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
                     Log.d("TESTLOG", "MEDIA_INFO_VIDEO_RENDERING_START")
                     binding.pbLoadingVideo.visibility = View.GONE
+                    binding.ivFeedThumbnail.visibility = View.GONE
                 }
                 if (MediaPlayer.MEDIA_INFO_BUFFERING_START == what) {
                     Log.d("TESTLOG", "MEDIA_INFO_BUFFERING_START")
@@ -87,15 +107,9 @@ class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
             val infoText = "${item.climbingGymInfo.name} | ${item.sector} | ${item.level}"
             binding.tvFeedInfo.text = infoText
             binding.tvFeedCreatedDate.text = item.date.created.substring(0, 10)
-
-            if (position == currentPlayingPosition) {
-                startVideo()
-            } else {
-                stopVideo()
-            }
         }
 
-        private fun startVideo() {
+        fun startVideo() {
             if (!binding.vvFeedVideo.isPlaying) {
                 binding.vvFeedVideo.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE)
                 binding.vvFeedVideo.setOnCompletionListener {
@@ -104,14 +118,17 @@ class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
                 binding.vvFeedVideo.seekTo(0)
                 binding.vvFeedVideo.start()
                 binding.pbLoadingVideo.visibility = View.VISIBLE
+                binding.vvFeedVideo.visibility = View.VISIBLE
                 Log.d("TESTLOG", "vvFeedVideo.start()")
             }
         }
 
-        private fun stopVideo() {
+        fun stopVideo() {
             if(binding.vvFeedVideo.isPlaying) {
                 binding.pbLoadingVideo.visibility = View.VISIBLE
                 binding.vvFeedVideo.pause()
+                binding.ivFeedThumbnail.visibility = View.VISIBLE
+                binding.vvFeedVideo.visibility = View.INVISIBLE
             }
         }
     }
@@ -165,12 +182,12 @@ class FeedAdapter: ListAdapter<Record, RecyclerView.ViewHolder>(
         holder.stopVideo()
     }*/
 
-    fun setCurrentPlayingPosition(position: Int) {
+    /*fun setCurrentPlayingPosition(position: Int) {
         if (currentPlayingPosition != position) {
             val previousPlayingPosition = currentPlayingPosition
             currentPlayingPosition = position
             notifyItemChanged(previousPlayingPosition)
             notifyItemChanged(position)
         }
-    }
+    }*/
 }

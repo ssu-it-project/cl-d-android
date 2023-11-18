@@ -1,6 +1,5 @@
 package com.seumulseumul.cld.ui.home
 
-import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -11,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.view.WindowMetrics
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -20,11 +17,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.seumulseumul.cld.databinding.FragmentHomeBinding
 import com.seumulseumul.cld.sharedpref.PrefData
 import com.seumulseumul.cld.sharedpref.PrefKey
 import com.seumulseumul.cld.ui.adapter.FeedAdapter
 import com.seumulseumul.domain.model.Record
+import com.seumulseumul.domain.model.RefreshToken
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -44,7 +43,8 @@ class HomeFragment : Fragment() {
     private var isRequired: Boolean = true
     private val feedList: MutableList<Record> = mutableListOf()
 
-    private val displayMetrics = DisplayMetrics()
+    private var currentPlayPosition = -1
+    private var currentPlayViewHolder: FeedAdapter.FeedViewHolder? = null
 
     private fun getVideoStartPosition(recyclerView: RecyclerView): Int {
         // 첫 번째 콘텐츠 취득
@@ -110,6 +110,13 @@ class HomeFragment : Fragment() {
         initView()
 
         initViewModelStream()
+        viewModel.postRefreshAuthToken(
+            RefreshToken(
+                deviceId = "1",
+                refreshToken = PrefData.getString(PrefKey.refreshToken, "")
+            )
+        )
+
         viewModel.getClimeRecords(
             PrefData.getString(PrefKey.authToken, "")
         )
@@ -128,6 +135,17 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.refreshAuthTokenSharedFlow.collect {
+                    val authToken = "Bearer ${it.jwt}"
+                    Log.d("TESTLOG", "refresh auth token: $authToken")
+                    PrefData.put(authToken to PrefKey.authToken)
+                    PrefData.put(it.refreshToken to PrefKey.refreshToken)
+                }
+            }
+        }
     }
 
     private fun initView() {
@@ -137,9 +155,23 @@ class HomeFragment : Fragment() {
             it.adapter = adapter
             it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (layoutManager.findFirstVisibleItemPosition() == 0)
-                        adapter.setCurrentPlayingPosition(1)
-                    else adapter.setCurrentPlayingPosition(getVideoStartPosition(it))
+                    var viewHolder: ViewHolder?
+                    val playPosition: Int
+                    if (layoutManager.findFirstVisibleItemPosition() == 0) {
+                        viewHolder = it.findViewHolderForAdapterPosition(1)
+                        playPosition = 1
+                    } else {
+                        playPosition = getVideoStartPosition(it)
+                        viewHolder = it.findViewHolderForAdapterPosition(playPosition)
+                    }
+
+                    if (viewHolder != null && viewHolder.itemViewType != FeedAdapter.ViewType.BADGE.ordinal && currentPlayPosition != playPosition) {
+                        if (currentPlayViewHolder != null) currentPlayViewHolder!!.stopVideo()
+                        viewHolder = viewHolder as FeedAdapter.FeedViewHolder
+                        viewHolder.startVideo()
+                        currentPlayViewHolder = viewHolder
+                        currentPlayPosition = playPosition
+                    }
 
                     // 스크롤 시, 페이징 연속 적용 방지 처리
                     if (layoutManager.findLastVisibleItemPosition() > adapter.itemCount - 2 && isRequired) {

@@ -19,7 +19,7 @@ data class Record(
 
     val id: String,
 
-    val image: String?,
+    var image: String?,
 
     val level: String,
 
